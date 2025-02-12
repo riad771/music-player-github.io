@@ -108,15 +108,15 @@ header {
 }
 
 .bg1 {
-	background-color: hsl(147, 96%, 50%);
+	background-color: hsl(0, 96%, 50%);
 }
 
 .bg2 {
-	background-color: #05ff9f;
+	background-color: #ff0505;
 }
 
 .bg3 {
-	background-color: #06f7d7;
+	background-color: #f70606;
 }
 
 iframe {
