@@ -3,13 +3,40 @@
 //Library - Minim
 //
 //Global Variables
+float imageDivX, imageDivY, imageDivWidth, imageDivHeight;
 //
-void setup() {} //End setup
+PImage myFirstImage;
 //
-void draw() {} //End draw
+void setup() {
+  //Display
+  fullScreen();
+  //appWidth = ;
+//  appHeight = ;
+  //
+  //Population
+//  imageDivX = ;
+//  imageDivY = ;
+ // imageDivWidth = ;
+ // imageDivHeight = ;
+  //
+  //Image Aspect Ratio Algorithm
+//  String myFirstImagePathway = ;
+//  myFirstImage = ;
+  //
+  //DIV
+  rect( imageDivX, imageDivY, imageDivWidth, imageDivHeight );
+  //
+  //Prototype Images
+  image( myFirstImage, imageDivX, imageDivY, imageDivWidth, imageDivHeight );
+} //End setup
 //
-void mousePressed() {} //End mousePressed
+void draw() {
+} //End draw
 //
-void keyPressed() {} //End keyPressed
+void mousePressed() {
+} //End mousePressed
+//
+void keyPressed() {
+} //End keyPressed
 //
 // End Main Program
