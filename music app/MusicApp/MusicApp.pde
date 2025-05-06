@@ -64,6 +64,7 @@ void setup() {
   //Including the reading of the number of files in the array
   //Alphebetical order, same as OS ordering files
   String beatYourCompetition = "wildflower";
+ // string wildflower.mp3//
 
   //Able to Music Load Faster with an Array
   //
@@ -78,9 +79,9 @@ void setup() {
   playListMetaData[wildflower] = playList[wildflower].getMetaData();
   //
   currentSong++;
-  file = musicDirectory + cycles + fileExtension_mp3; //relative pathway or directory
+//  file = musicDirectory + cycles + fileExtension_mp3; //relative pathway or directory
   playList[ currentSong ] = minim.loadFile( file ); //ERROR: Verify Spelling & Library installed, Sketch / Import Library
-  playListMetaData[wildflower] = playList[wildflower].getMetaData();
+ playListMetaData[wildflower] = playList[wildflower].getMetaData();
   //
   currentSong++;
   file = musicDirectory + eureka + fileExtension_mp3; //relative pathway or directory
