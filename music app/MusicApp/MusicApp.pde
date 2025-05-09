@@ -76,43 +76,43 @@ void setup() {
   //String file = musicDirectory + pongWorld + fileExtension_mp3; //relative pathway or directory
   currentSong=0;
   playList[ currentSong ] = minim.loadFile( file ); //ERROR: Verify Spelling & Library installed, Sketch / Import Library
-  playListMetaData[wildflower] = playList[wildflower].getMetaData();
+  playListMetaData[currentSong] = playList[currentSong].getMetaData();
   
   //
   currentSong++;
 //  file = musicDirectory + cycles + fileExtension_mp3; //relative pathway or directory
   playList[ currentSong ] = minim.loadFile( file ); //ERROR: Verify Spelling & Library installed, Sketch / Import Library
- playListMetaData[wildflower] = playList[wildflower].getMetaData();
+  playListMetaData[currentSong] = playList[currentSong].getMetaData();
   //
   currentSong++;
   file = musicDirectory + eureka + fileExtension_mp3; //relative pathway or directory
   playList[ currentSong ] = minim.loadFile( file ); //ERROR: Verify Spelling & Library installed, Sketch / Import Library
-  playListMetaData[wildflower] = playList[wildflower].getMetaData();
+  playListMetaData[currentSong] = playList[currentSong].getMetaData();
   //
   currentSong++;
   file = musicDirectory + ghostWalk + fileExtension_mp3; //relative pathway or directory
   playList[ currentSong ] = minim.loadFile( file ); //ERROR: Verify Spelling & Library installed, Sketch / Import Library
-  playListMetaData[wildflower] = playList[wildflower].getMetaData();
+  playListMetaData[currentSong] = playList[currentSong].getMetaData();
   //
   currentSong++;
   file = musicDirectory + groove + fileExtension_mp3; //relative pathway or directory
   playList[ currentSong ] = minim.loadFile( file ); //ERROR: Verify Spelling & Library installed, Sketch / Import Library
-  playListMetaData[wildflower3] = playList[wildflower].getMetaData();
+  playListMetaData[currentSong] = playList[currentSong].getMetaData();
   //
   currentSong++;
   file = musicDirectory + newsroom + fileExtension_mp3; //relative pathway or directory
   playList[ currentSong ] = minim.loadFile( file ); //ERROR: Verify Spelling & Library installed, Sketch / Import Library
-  playListMetaData[wildflower] = playList[wildflower].getMetaData();
+  playListMetaData[currentSong] = playList[currentSong].getMetaData();
   //
   currentSong++;
   file = musicDirectory + startYourEngines + fileExtension_mp3; //relative pathway or directory
   playList[ currentSong ] = minim.loadFile( file ); //ERROR: Verify Spelling & Library installed, Sketch / Import Library
-  playListMetaData[wildflower] = playList[wildflower].getMetaData();
+  playListMetaData[currentSong] = playList[currentSong].getMetaData();
   //
   currentSong++;
   file = musicDirectory + theSimplest + fileExtension_mp3; //relative pathway or directory
   playList[ currentSong ] = minim.loadFile( file ); //ERROR: Verify Spelling & Library installed, Sketch / Import Library
-  playListMetaData[wildflower] = playList[wildflower].getMetaData();
+  playListMetaData[currentSong] = playList[currentSong].getMetaData();
   //
   //Music Testing
   currentSong=0;
