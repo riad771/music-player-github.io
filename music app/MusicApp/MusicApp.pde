@@ -5,6 +5,7 @@ import ddf.minim.effects.*;
 import ddf.minim.signals.*;
 import ddf.minim.spi.*;
 import ddf.minim.ugens.*;
+import java.io.File;
 //
 //Global Variables
 Minim minim; //initates entire class
@@ -81,44 +82,66 @@ void setup() {
   String file = musicDirectory + beatYourCompetition + fileExtension_mp3; //relative pathway or directory
   //String file = musicDirectory + pongWorld + fileExtension_mp3; //relative pathway or directory
   currentSong=0;
-  playList[ currentSong ] = minim.loadFile( file ); //ERROR: Verify Spelling & Library installed, Sketch / Import Library
-  playListMetaData[currentSong] = playList[currentSong].getMetaData();
-  
-  //
-  currentSong++;
-//  file = musicDirectory + cycles + fileExtension_mp3; //relative pathway or directory
-  playList[ currentSong ] = minim.loadFile( file ); //ERROR: Verify Spelling & Library installed, Sketch / Import Library
-  playListMetaData[currentSong] = playList[currentSong].getMetaData();
+  if (new File(file).exists()) {
+    playList[currentSong] = minim.loadFile(file);
+    playListMetaData[currentSong] = playList[currentSong].getMetaData();
+  } else {
+    println("Error: File not found - " + file);
+  }
   //
   currentSong++;
   file = musicDirectory + eureka + fileExtension_mp3; //relative pathway or directory
-  playList[ currentSong ] = minim.loadFile( file ); //ERROR: Verify Spelling & Library installed, Sketch / Import Library
-  playListMetaData[currentSong] = playList[currentSong].getMetaData();
+  if (new File(file).exists()) {
+    playList[currentSong] = minim.loadFile(file);
+    playListMetaData[currentSong] = playList[currentSong].getMetaData();
+  } else {
+    println("Error: File not found - " + file);
+  }
   //
   currentSong++;
   file = musicDirectory + ghostWalk + fileExtension_mp3; //relative pathway or directory
-  playList[ currentSong ] = minim.loadFile( file ); //ERROR: Verify Spelling & Library installed, Sketch / Import Library
-  playListMetaData[currentSong] = playList[currentSong].getMetaData();
+  if (new File(file).exists()) {
+    playList[currentSong] = minim.loadFile(file);
+    playListMetaData[currentSong] = playList[currentSong].getMetaData();
+  } else {
+    println("Error: File not found - " + file);
+  }
   //
   currentSong++;
   file = musicDirectory + groove + fileExtension_mp3; //relative pathway or directory
-  playList[ currentSong ] = minim.loadFile( file ); //ERROR: Verify Spelling & Library installed, Sketch / Import Library
-  playListMetaData[currentSong] = playList[currentSong].getMetaData();
+  if (new File(file).exists()) {
+    playList[currentSong] = minim.loadFile(file);
+    playListMetaData[currentSong] = playList[currentSong].getMetaData();
+  } else {
+    println("Error: File not found - " + file);
+  }
   //
   currentSong++;
   file = musicDirectory + newsroom + fileExtension_mp3; //relative pathway or directory
-  playList[ currentSong ] = minim.loadFile( file ); //ERROR: Verify Spelling & Library installed, Sketch / Import Library
-  playListMetaData[currentSong] = playList[currentSong].getMetaData();
+  if (new File(file).exists()) {
+    playList[currentSong] = minim.loadFile(file);
+    playListMetaData[currentSong] = playList[currentSong].getMetaData();
+  } else {
+    println("Error: File not found - " + file);
+  }
   //
   currentSong++;
   file = musicDirectory + startYourEngines + fileExtension_mp3; //relative pathway or directory
-  playList[ currentSong ] = minim.loadFile( file ); //ERROR: Verify Spelling & Library installed, Sketch / Import Library
-  playListMetaData[currentSong] = playList[currentSong].getMetaData();
+  if (new File(file).exists()) {
+    playList[currentSong] = minim.loadFile(file);
+    playListMetaData[currentSong] = playList[currentSong].getMetaData();
+  } else {
+    println("Error: File not found - " + file);
+  }
   //
   currentSong++;
   file = musicDirectory + theSimplest + fileExtension_mp3; //relative pathway or directory
-  playList[ currentSong ] = minim.loadFile( file ); //ERROR: Verify Spelling & Library installed, Sketch / Import Library
-  playListMetaData[currentSong] = playList[currentSong].getMetaData();
+  if (new File(file).exists()) {
+    playList[currentSong] = minim.loadFile(file);
+    playListMetaData[currentSong] = playList[currentSong].getMetaData();
+  } else {
+    println("Error: File not found - " + file);
+  }
   //
   //Music Testing
   currentSong=0;
