@@ -109,9 +109,6 @@ void setup() {
 
   //Able to Music Load Faster with an Array
   //
-  String fileExtension_mp3 = ".mp3";
-  //
-  String musicDirectory = "../../" + lessonDependanciesFolder + musicAll; //musicPong
   //Create a FOR loop to loadFile() a changing songName, Create a Procedure with two Arrays first
   String file = musicDirectory + beatYourCompetition + fileExtension_mp3; //relative pathway or directory
   //String file = musicDirectory + pongWorld + fileExtension_mp3; //relative pathway or directory
