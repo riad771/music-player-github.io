@@ -73,40 +73,6 @@ void setup() {
   String theSimplest = "theSimplest";
  // string wildflower.mp3//
 
-  // Initialize playlist and metadata arrays
-  for (int i = 0; i < numberOfSongs; i++) {
-    playList[i] = null;
-    playListMetaData[i] = null;
-  }
-
-  // Load songs into the playlist
-  String[] songNames = {
-    "wildflower", "eureka", "ghostWalk", "groove", 
-    "newsroom", "startYourEngines", "theSimplest"
-  };
-  String fileExtension_mp3 = ".mp3";
-  String musicDirectory = "../../" + lessonDependanciesFolder + musicAll;
-
-  for (int i = 0; i < songNames.length; i++) {
-    String file = musicDirectory + songNames[i] + fileExtension_mp3;
-    if (new File(file).exists()) {
-      playList[i] = minim.loadFile(file);
-      playListMetaData[i] = playList[i].getMetaData();
-    } else {
-      println("Error: File not found - " + file);
-    }
-  }
-
-  // Ensure at least one song is loaded
-  currentSong = 0;
-  while (currentSong < numberOfSongs && playList[currentSong] == null) {
-    currentSong++;
-  }
-  if (currentSong == numberOfSongs) {
-    println("Error: No songs were successfully loaded.");
-    exit();
-  }
-
   //Able to Music Load Faster with an Array
   //
   String fileExtension_mp3 = ".mp3";
@@ -187,10 +153,8 @@ void setup() {
   String[] fontList = PFont.list(); //To list all fonts available on system
    printArray(fontList); //For listing all possible fonts to choose, then createFont
    */
-  // Replace the font with an available one
-  String[] fontList = PFont.list(); // Uncomment to debug and list available fonts
-  // printArray(fontList); // Uncomment to see the list of fonts in the console
-  appFont = createFont("Arial-BoldMT", appShortSide); // Replace with a valid font name
+  appFont = createFont ("Calibri-BoldItalic-48", appShortSide); //Verify font exists
+  //Tools / Create Font / Find Font / Do Not Press "OK", known bug, cannot mix loadFont() and createFont()
   //
   //Population
   quitX = appWidth - appShortSide*1/20;
@@ -384,8 +348,6 @@ void setup() {
 
     // Option, drawing ```title``` v playListMetaData[currentSong].title()
     text(playListMetaData[currentSong].title(), songTitleDivX, songTitleDivY, songTitleDivWidth, songTitleDivHeight);
-  } else {
-    println("Error: Metadata or playlist is null for the current song.");
   }
   color whiteInk = #FFFFFF;
   fill(whiteInk); //reset
@@ -393,7 +355,7 @@ void setup() {
   //Aspect Ratio of Specfic Font, calculations only to be entered in variables above
   //println( "Text Width:", textWidth( playListMetaData[currentSong].title() ), "v rectWidth:", songTitleDivWidth ); //Always smaller or cut off, if text is drawn, always drawn
   //println( "Text Height:", fontSize, "v. rectHeight:", songTitleDivHeight ); //largest fontSize that will be draw, relative to rectHeight
-  //println( "Harrington Aspect Ratio ( fontSize/rect(height) ):", fontSize/songTitleDivHeight ); //Remember casting
+  //println( "wildflower" ( fontSize/rect(height) ):", fontSize/songTitleDivHeight ); //Remember casting
   //
   //Print What is available on a particular song
   //See Image / Properties / Details
@@ -418,12 +380,6 @@ void setup() {
 } //End setup
 //
 void draw() {
-  // Check if the current song is valid before accessing metadata
-  if (playList[currentSong] != null && playListMetaData[currentSong] != null) {
-    // ...existing code for drawing song title...
-  } else {
-    println("Error: Metadata or playlist is null for the current song.");
-  }
 } //End draw
 //
 void mousePressed() {
