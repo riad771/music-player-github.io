@@ -42,7 +42,7 @@ void populationTemp() {
   messageDIV_Y = appHeight*1.5/20;
   messageDIV_Width = appWidth*5/8 - beginningButtonSpace*1/2;
   messageDIV_Height = appHeight*9.5/20;
-  ongTitleDivX = beginningButtonSpace + appWidth*5/8;
+  songTitleDivX = beginningButtonSpace + appWidth*5/8;
   songTitleDivY = appHeight*1.5/20;
   songTitleDivWidth = appWidth*3/8 - beginningButtonSpace*2;
   songTitleDivHeight = appHeight*1/10;
@@ -50,6 +50,13 @@ void populationTemp() {
   imageDivY = appHeight*4.5/20;
   imageDivWidth = appWidth*3/8 - beginningButtonSpace*2;
   imageDivHeight = appHeight*6.5/20;
+  
+  
+  
+  //CONTINUE HERE
+  
+  
+  
   //
   stopDivX = beginningButtonSpace + widthOfButton*0;
   stopDivY = buttonY;
