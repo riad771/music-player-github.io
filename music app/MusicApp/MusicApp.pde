@@ -153,8 +153,10 @@ void setup() {
   String[] fontList = PFont.list(); //To list all fonts available on system
    printArray(fontList); //For listing all possible fonts to choose, then createFont
    */
-  appFont = createFont ("Calibri-BoldItalic-48", appShortSide); //Verify font exists
-  //Tools / Create Font / Find Font / Do Not Press "OK", known bug, cannot mix loadFont() and createFont()
+  // Replace the font with an available one
+  String[] fontList = PFont.list(); // Uncomment to debug and list available fonts
+  // printArray(fontList); // Uncomment to see the list of fonts in the console
+  appFont = createFont("Arial-BoldMT", appShortSide); // Replace with a valid font name
   //
   //Population
   quitX = appWidth - appShortSide*1/20;
@@ -348,6 +350,8 @@ void setup() {
 
     // Option, drawing ```title``` v playListMetaData[currentSong].title()
     text(playListMetaData[currentSong].title(), songTitleDivX, songTitleDivY, songTitleDivWidth, songTitleDivHeight);
+  } else {
+    println("Error: Metadata or playlist is null for the current song.");
   }
   color whiteInk = #FFFFFF;
   fill(whiteInk); //reset
