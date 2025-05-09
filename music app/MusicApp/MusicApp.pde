@@ -77,6 +77,7 @@ void setup() {
   currentSong=0;
   playList[ currentSong ] = minim.loadFile( file ); //ERROR: Verify Spelling & Library installed, Sketch / Import Library
   playListMetaData[wildflower] = playList[wildflower].getMetaData();
+  
   //
   currentSong++;
 //  file = musicDirectory + cycles + fileExtension_mp3; //relative pathway or directory
