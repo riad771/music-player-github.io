@@ -339,19 +339,16 @@ void setup() {
   //
   //Drawing Text
   //Option draw ```title```
-  //Decrease Font when wrapped around
-  while ( songTitleDivWidth < textWidth( playListMetaData[currentSong].title() ) ) { //decrease font
-    //exit();
-    //println("here"); //infinte loop, problem with WHILE, similar to draw()
-    //Nothing Else works
-    //
-    fontSize *= 0.99; //Assignment Operator  //fontSize = fontSize*0.99;
-    //Update WHILE Conditional with fontSize
-    textFont(appFont, fontSize);
-  } //End Wrap-Around Notification
-  //
-  //Option, drawing ```title``` v playListMetaData[currentSong].title()
-  text(playListMetaData[currentSong].title(), songTitleDivX, songTitleDivY, songTitleDivWidth, songTitleDivHeight);
+  if (playList[currentSong] != null && playListMetaData[currentSong] != null) {
+    // Decrease Font when wrapped around
+    while (songTitleDivWidth < textWidth(playListMetaData[currentSong].title())) { // decrease font
+      fontSize *= 0.99; // Assignment Operator
+      textFont(appFont, fontSize);
+    } // End Wrap-Around Notification
+
+    // Option, drawing ```title``` v playListMetaData[currentSong].title()
+    text(playListMetaData[currentSong].title(), songTitleDivX, songTitleDivY, songTitleDivWidth, songTitleDivHeight);
+  }
   color whiteInk = #FFFFFF;
   fill(whiteInk); //reset
   //
