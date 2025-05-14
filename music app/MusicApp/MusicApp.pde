@@ -44,6 +44,7 @@ float pauseX2, pauseY2, pauseWidth2, pauseHeight2;
 //
 PFont appFont;
 float fontSize;
+float wildflower = "wildflower"
 //
 void setup() {
   //Display
@@ -58,14 +59,9 @@ void setup() {
   String lessonDependanciesFolder = "Lesson Dependancies Folder/";
   String musicPong = "Music Pong/";
   String musicAll = "Music All/";
-  //Note: Download music and sound effects, then design your player with images, text, and 2D shapes
-  //See Google Search: Atari pong logo free image download
-  String pongWorld = "Pong World";
-  //Add all files, CS20 Review is special OS Java Library
-  //Including the reading of the number of files in the array
-  //Alphebetical order, same as OS ordering files
-
-  // Use the songNames array instead
+ String pongWorld = "Pong World";
+  
+  string wildflower = "wildlower";
   String[] songNames = {
     "wildflower", "eureka", "ghostWalk", "groove", 
     "newsroom", "startYourEngines", "theSimplest"
@@ -389,7 +385,7 @@ void setup() {
   //Print What is available on a particular song
   //See Image / Properties / Details
   println();
-  println( "File Name: " + playListMetaData[currentSong].fileName() );
+  println( "File Name: " + playListMetaData[wildflower].mp3() );
   println( "Length (in milliseconds): " + playListMetaData[currentSong].length() );
   println( "Title: " + playListMetaData[currentSong].title() );
   println( "Author: " + playListMetaData[currentSong].author() );
