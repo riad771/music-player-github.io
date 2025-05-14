@@ -1,6 +1,3 @@
-// For Lesson Progression only
-// Move to Startup Variables, GUI, Mouse Interactions
-// Most these variables will be local and deleted once verified with a rect
 float quitX, quitY, quitWidth, quitHeight;
 float imageDivX, imageDivY, imageDivWidth, imageDivHeight;
 float messageDIV_X, messageDIV_Y, messageDIV_Width, messageDIV_Height;
@@ -51,13 +48,7 @@ void populationTemp() {
   imageDivWidth = appWidth*3/8 - beginningButtonSpace*2;
   imageDivHeight = appHeight*6.5/20;
   
-  
-  
-  //CONTINUE HERE
-  
-  
-  
-  //
+
   stopDivX = beginningButtonSpace + widthOfButton*0;
   stopDivY = buttonY;
   stopDivWidth = widthOfButton;
@@ -96,7 +87,7 @@ void populationTemp() {
   pauseWidth2 = pauseDivWidth*1/8;
   pauseHeight2 = pauseDivHeight*1/2;
   //
-  playDivX = beginningButtonSpace + widthOfButton*5; //TEACHER Only" manipulate this number to draw simulate all buttons
+  playDivX = beginningButtonSpace + widthOfButton*5; 
   playDivY = buttonY;
   playDivWidth = widthOfButton;
   playDivHeight = widthOfButton;
