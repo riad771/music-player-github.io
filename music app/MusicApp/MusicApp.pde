@@ -46,7 +46,7 @@ PFont appFont;
 float fontSize;
 float wildflower = "wildflower"
 //
-void setup() {
+ void setup() {
   //Display
   //fullScreen();
   size(700, 500);
@@ -104,14 +104,14 @@ void setup() {
   //String file = musicDirectory + pongWorld + fileExtension_mp3; //relative pathway or directory
   currentSong=0;
   if (new File(file).exists()) {
-    playList[currentSong] = minim.loadFile(file);
-    playListMetaData[currentSong] = playList[currentSong].getMetaData();
+    playList[wildflower] = minim.loadFile(mp3);
+    playListMetaData[wildflower] = playList[wildflower].getMetaData();
   } else {
     println("Error: File not found - " + file);
   }
   //
   currentSong++;
-  file = musicDirectory + songNames[1] + fileExtension_mp3; //relative pathway or directory
+  file = musicDirectory + songNames[1] + wildflower_mp3; //relative pathway or directory
   if (new File(file).exists()) {
     playList[wildflower] = minim.loadFile(file);
     playListMetaData[currentSong] = playList[currentSong].getMetaData();
