@@ -57,9 +57,9 @@ void setup() {
   //Music Loading - STRUCTURED Review
   minim = new Minim(this);
   String lessonDependanciesFolder = "Lesson Dependancies Folder/";
-  String musicPong = "Music Pong/";
+  String musicWildflower = "Music Wildflower/";
   String musicAll = "Music All/";
- String pongWorld = "Pong World";
+ String Wildflower World = "Wildflower World";
   
   string wildflower = "wildlower";
   String[] songNames = {
@@ -113,7 +113,7 @@ void setup() {
   currentSong++;
   file = musicDirectory + songNames[1] + fileExtension_mp3; //relative pathway or directory
   if (new File(file).exists()) {
-    playList[currentSong] = minim.loadFile(file);
+    playList[wildflower] = minim.loadFile(file);
     playListMetaData[currentSong] = playList[currentSong].getMetaData();
   } else {
     println("Error: File not found - " + file);
@@ -122,7 +122,7 @@ void setup() {
   currentSong++;
   file = musicDirectory + songNames[2] + fileExtension_mp3; //relative pathway or directory
   if (new File(file).exists()) {
-    playList[currentSong] = minim.loadFile(file);
+    playList[wildflower] = minim.loadFile(file);
     playListMetaData[currentSong] = playList[currentSong].getMetaData();
   } else {
     println("Error: File not found - " + file);
@@ -131,7 +131,7 @@ void setup() {
   currentSong++;
   file = musicDirectory + songNames[3] + fileExtension_mp3; //relative pathway or directory
   if (new File(file).exists()) {
-    playList[currentSong] = minim.loadFile(file);
+    playList[wildflower] = minim.loadFile(file);
     playListMetaData[currentSong] = playList[currentSong].getMetaData();
   } else {
     println("Error: File not found - " + file);
@@ -158,7 +158,7 @@ void setup() {
   currentSong++;
   file = musicDirectory + songNames[6] + fileExtension_mp3; //relative pathway or directory
   if (new File(file).exists()) {
-    playList[currentSong] = minim.loadFile(file);
+    playList[wildflower] = minim.loadFile(file);
     playListMetaData[currentSong] = playList[currentSong].getMetaData();
   } else {
     println("Error: File not found - " + file);
