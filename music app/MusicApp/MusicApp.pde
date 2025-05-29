@@ -9,12 +9,12 @@ import ddf.minim.ugens.*;
 int appWidth, appHeight;
 
 // Global Variables for Layout Positions and Sizes
-int mainX, mainY, mainWidth, mainHeight;         // Main section
-int headerX, headerY, headerWidth, headerHeight; // "Now Playing" Header
-int controlsX, controlsY, buttonSize, spacing;   // Control Buttons
-int quitX, quitY, quitWidth, quitHeight;         // Quit Button
-int playlistX, playlistY, rowWidth, rowHeight;   // Playlist Grid
-int iconX, iconY, iconSize, iconSpacing;         // Bottom Icons
+int mainX, mainY, mainWidth, mainHeight;         
+int headerX, headerY, headerWidth, headerHeight; 
+int controlsX, controlsY, buttonSize, spacing;   
+int quitX, quitY, quitWidth, quitHeight;         
+int playlistX, playlistY, rowWidth, rowHeight;   
+int iconX, iconY, iconSize, iconSpacing;         
 
 // Global Variables for Minim
 Minim minim;
@@ -30,9 +30,9 @@ String[] musicNames = {
   "three"
 };
 String[] actualMusicNames = {
-  "Never Gonna Give You Up",
-  "Space",
-  "Groove"
+  "WILD FLOWER",
+  "CHIHIRO",
+  "BRIDS OF A FEATHER"
 };
 
 // Variables for hover and click detection
