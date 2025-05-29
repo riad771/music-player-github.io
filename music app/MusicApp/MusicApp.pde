@@ -1,538 +1,337 @@
-//Library - Minim
 import ddf.minim.*;
 import ddf.minim.analysis.*;
 import ddf.minim.effects.*;
 import ddf.minim.signals.*;
 import ddf.minim.spi.*;
 import ddf.minim.ugens.*;
-import java.io.File;
-//
-//Global Variables
-Minim minim; //initates entire class
-int numberOfSongs = 8; //Best Practice
-//int numberOfSoundEffects = ???
-AudioPlayer[] playList = new AudioPlayer[ numberOfSongs ];
-//AudioPlayer[] soundEffects = new AudioPlayer[ numberOfSoundEffects ];
-AudioMetaData[] playListMetaData = new AudioMetaData[ numberOfSongs ];
-int currentSong = numberOfSongs - numberOfSongs; //ZERO
-//
-float quitX, quitY, quitWidth, quitHeight;
-float imageDivX, imageDivY, imageDivWidth, imageDivHeight;
-float stopDivX, stopDivY, stopDivWidth, stopDivHeight;
-float muteDivX, muteDivY, muteDivWidth, muteDivHeight;
-float previousDivX, previousDivY, previousDivWidth, previousDivHeight;
-float fastRewindDivX, fastRewindDivY, fastRewindDivWidth, fastRewindDivHeight;
-float pauseDivX, pauseDivY, pauseDivWidth, pauseDivHeight;
-float playDivX, playDivY, playDivWidth, playDivHeight;
-float loopOnceDivX, loopOnceDivY, loopOnceDivWidth, loopOnceDivHeight;
-float loopInfiniteDivX, loopInfiniteDivY, loopInfiniteDivWidth, loopInfiniteDivHeight;
-float fastForwardDivX, fastForwardDivY, fastForwardDivWidth, fastForwardDivHeight;
-float nextDivX, nextDivY, nextDivWidth, nextDivHeight;
-float shuffleDivX, shuffleDivY, shuffleDivWidth, shuffleDivHeight;
-float songPositionDivX, songPositionDivY, songPositionDivWidth, songPositionDivHeight;
-float timeRemainingDivX, timeRemainingDivY, timeRemainingDivWidth, timeRemainingDivHeight;
-float songTitleDivX, songTitleDivY, songTitleDivWidth, songTitleDivHeight;
-float timeBarDivX, timeBarDivY, timeBarDivWidth, timeBarDivHeight;
-float totalTimeDivX, totalTimeDivY, totalTimeDivWidth, totalTimeDivHeight;
-//Button Variables after
-float stopButtonX, stopButtonY, stopButtonWidth, stopButtonHeight;
-float playX1, playY1, playX2, playY2, playX3, playY3;
-float fastForwardX1, fastForwardY1, fastForwardX2, fastForwardY2, fastForwardX3, fastForwardY3;
-float fastForwardX4, fastForwardY4, fastForwardX5, fastForwardY5, fastForwardX6, fastForwardY6;
-float pauseX1, pauseY1, pauseWidth1, pauseHeight1;
-float pauseX2, pauseY2, pauseWidth2, pauseHeight2;
-//
-PFont appFont;
-float fontSize;
-float wildflower = "wildflower"
-//
- void setup() {
-  //Display
-  //fullScreen();
-  size(700, 500);
-  int appWidth = width; //displayWidth
-  int appHeight = height; //displayHeight
-  int appShortSide = ( appWidth < appHeight ) ? appWidth : appHeight ;
-  //
-  //Music Loading - STRUCTURED Review
+
+// Global Variables for Screen Dimensions
+int appWidth, appHeight;
+
+// Global Variables for Layout Positions and Sizes
+int mainX, mainY, mainWidth, mainHeight;         // Main section
+int headerX, headerY, headerWidth, headerHeight; // "Now Playing" Header
+int controlsX, controlsY, buttonSize, spacing;   // Control Buttons
+int quitX, quitY, quitWidth, quitHeight;         // Quit Button
+int playlistX, playlistY, rowWidth, rowHeight;   // Playlist Grid
+int iconX, iconY, iconSize, iconSpacing;         // Bottom Icons
+
+// Global Variables for Minim
+Minim minim;
+int numberOfSongs = 3; // Adjusted to 3 songs
+AudioPlayer[] songs = new AudioPlayer[numberOfSongs];
+int currentSongIndex = 0;
+
+String musicPath = "../../MP3s/";
+String mp3FileName = ".mp3";
+String[] musicNames = {
+  "one",
+  "two",
+  "three"
+};
+String[] actualMusicNames = {
+  "Never Gonna Give You Up",
+  "Space",
+  "Groove"
+};
+
+// Variables for hover and click detection
+boolean[] iconHovered = new boolean[2];
+boolean[] iconClicked = new boolean[2];
+boolean[] controlHovered = new boolean[9];
+boolean[] controlClicked = new boolean[9];
+boolean quitHovered = false;
+boolean quitClicked = false;
+
+// Global Variable to Track Theme
+boolean isDarkTheme = true; // false for Light, true for Dark
+boolean isMuted = false;  // Global variable to track mute state
+
+// Setup the canvas
+void setup() {
+  fullScreen(); // Fullscreen mode
+  appWidth = width;
+  appHeight = height;
+
+  // Set up basic styles
+  rectMode(CORNER);
+  textAlign(CENTER, CENTER);
+  textSize(20);
+
+  //Minim setup
   minim = new Minim(this);
-  String lessonDependanciesFolder = "Lesson Dependancies Folder/";
-  String musicWildflower = "Music Wildflower/";
-  String musicAll = "Music All/";
- String Wildflower World = "Wildflower World";
-  
-  string wildflower = "wildlower";
-  String[] songNames = {
-    "wildflower", "eureka", "ghostWalk", "groove", 
-    "newsroom", "startYourEngines", "theSimplest"
-  };
 
-  // Initialize playlist and metadata arrays
+  // Load Music (Adjust to the new number of songs)
   for (int i = 0; i < numberOfSongs; i++) {
-    playList[i] = null;
-    playListMetaData[i] = null;
+    songs[i] = minim.loadFile(musicPath + musicNames[i] + mp3FileName);
   }
 
-  // Load songs into the playlist
-  String fileExtension_mp3 = ".mp3";
-  String musicDirectory = "../../" + lessonDependanciesFolder + musicAll;
+  // Play Song
+  songs[currentSongIndex].play();
 
-  for (int i = 0; i < songNames.length; i++) {
-    String file = musicDirectory + songNames[i] + fileExtension_mp3;
-    if (new File(file).exists()) {
-      playList[i] = minim.loadFile(file);
-      playListMetaData[i] = playList[i].getMetaData();
-    } else {
-      println("Error: File not found - " + file);
-    }
-  }
+  // Populate Global Variables
+  mainX = 10;
+  mainY = 10;
+  mainWidth = appWidth - 20;
+  mainHeight = appHeight - 20;
 
-  // Ensure at least one song is loaded
-  currentSong = 0;
-  while (currentSong < numberOfSongs && playList[currentSong] == null) {
-    currentSong++;
-  }
-  if (currentSong == numberOfSongs) {
-    println("Error: No songs were successfully loaded.");
-    exit();
-  }
+  headerX = mainX + 10;
+  headerY = mainY + 10;
+  headerWidth = mainWidth - 40;
+  headerHeight = 80;
 
-  //Able to Music Load Faster with an Array
-  //
-  //Create a FOR loop to loadFile() a changing songName, Create a Procedure with two Arrays first
-  String file = musicDirectory + songNames[0] + fileExtension_mp3; //relative pathway or directory
-  //String file = musicDirectory + pongWorld + fileExtension_mp3; //relative pathway or directory
-  currentSong=0;
-  if (new File(file).exists()) {
-    playList[wildflower] = minim.loadFile(mp3);
-    playListMetaData[wildflower] = playList[wildflower].getMetaData();
-  } else {
-    println("Error: File not found - " + file);
-  }
-  //
-  currentSong++;
-  file = musicDirectory + songNames[1] + wildflower_mp3; //relative pathway or directory
-  if (new File(file).exists()) {
-    playList[wildflower] = minim.loadFile(file);
-    playListMetaData[currentSong] = playList[currentSong].getMetaData();
-  } else {
-    println("Error: File not found - " + file);
-  }
-  //
-  currentSong++;
-  file = musicDirectory + songNames[2] + fileExtension_mp3; //relative pathway or directory
-  if (new File(file).exists()) {
-    playList[wildflower] = minim.loadFile(file);
-    playListMetaData[currentSong] = playList[currentSong].getMetaData();
-  } else {
-    println("Error: File not found - " + file);
-  }
-  //
-  currentSong++;
-  file = musicDirectory + songNames[3] + fileExtension_mp3; //relative pathway or directory
-  if (new File(file).exists()) {
-    playList[wildflower] = minim.loadFile(file);
-    playListMetaData[currentSong] = playList[currentSong].getMetaData();
-  } else {
-    println("Error: File not found - " + file);
-  }
-  //
-  currentSong++;
-  file = musicDirectory + songNames[4] + fileExtension_mp3; //relative pathway or directory
-  if (new File(file).exists()) {
-    playList[currentSong] = minim.loadFile(file);
-    playListMetaData[currentSong] = playList[currentSong].getMetaData();
-  } else {
-    println("Error: File not found - " + file);
-  }
-  //
-  currentSong++;
-  file = musicDirectory + songNames[5] + fileExtension_mp3; //relative pathway or directory
-  if (new File(file).exists()) {
-    playList[currentSong] = minim.loadFile(file);
-    playListMetaData[currentSong] = playList[currentSong].getMetaData();
-  } else {
-    println("Error: File not found - " + file);
-  }
-  //
-  currentSong++;
-  file = musicDirectory + songNames[6] + fileExtension_mp3; //relative pathway or directory
-  if (new File(file).exists()) {
-    playList[wildflower] = minim.loadFile(file);
-    playListMetaData[currentSong] = playList[currentSong].getMetaData();
-  } else {
-    println("Error: File not found - " + file);
-  }
-  //
-  //Music Testing
-  currentSong=0;
-  //playList[currentSong].play();
-  //
-  //println("Start of Console");
-  //Fonts from OS
-  /*
-  String[] fontList = PFont.list(); //To list all fonts available on system
-   printArray(fontList); //For listing all possible fonts to choose, then createFont
-   */
-  // Replace the font with an available one
-  String[] fontList = PFont.list(); // Uncomment to debug and list available fonts
-  // printArray(fontList); // Uncomment to see the list of fonts in the console
-  appFont = createFont("Arial-BoldMT", appShortSide); // Replace with a valid font name
-  //
-  //Population
-  quitX = appWidth - appShortSide*1/20;
-  quitY = 0;
-  quitWidth = appShortSide*1/20;
-  quitHeight = appShortSide*1/20;
-  imageDivX = appWidth*1/4;
-  imageDivY = appHeight*1/5;
-  imageDivWidth = appWidth*1/2;
-  imageDivHeight = appHeight*1.5/5; //1+1.5=2.5, half of the total height
-  songTitleDivX = appWidth*1/4;
-  songTitleDivY = appHeight*1/20;
-  songTitleDivWidth = appWidth*1/2;
-  songTitleDivHeight = appHeight*1/10;
-  //
-  //rect(DIV) is a square to start, by design
-  int numberOfButtons = 13; //Half a button on either side as space, Center Button is Play
-  //println("Button Width:", appWidth/numberOfButtons);
-  int widthOfButton = appWidth/numberOfButtons;
-  int beginningButtonSpace = widthOfButton;
-  int buttonY = appHeight*3/5;
-  stopDivX = beginningButtonSpace + widthOfButton*0;
-  stopDivY = buttonY;
-  stopDivWidth = widthOfButton;
-  stopDivHeight = widthOfButton;
-  //
-  //STOP BUTTON
-  stopButtonX = stopDivX + stopDivWidth*1/4;
-  stopButtonY = stopDivY + stopDivHeight*1/4;
-  stopButtonWidth = widthOfButton*1/2;
-  stopButtonHeight = widthOfButton*1/2;
-  //
-  muteDivX = beginningButtonSpace + widthOfButton*1;
-  muteDivY = buttonY;
-  muteDivWidth = widthOfButton;
-  muteDivHeight = widthOfButton;
-  previousDivX = beginningButtonSpace + widthOfButton*2;
-  previousDivY = buttonY;
-  previousDivWidth = widthOfButton;
-  previousDivHeight = widthOfButton;
-  fastRewindDivX = beginningButtonSpace + widthOfButton*3;
-  fastRewindDivY = buttonY;
-  fastRewindDivWidth = widthOfButton;
-  fastRewindDivHeight = widthOfButton;
-  pauseDivX = beginningButtonSpace + widthOfButton*4;
-  pauseDivY = buttonY;
-  pauseDivWidth = widthOfButton;
-  pauseDivHeight = widthOfButton;
-  //
-  //Pause Button
-  pauseX1 = pauseDivX + pauseDivWidth*1/4;
-  pauseY1 = pauseDivY + pauseDivHeight*1/4;
-  pauseWidth1 = pauseDivWidth*1/8;
-  pauseHeight1 = pauseDivHeight*1/2;
-  pauseX2 = pauseDivX + pauseDivWidth*5/8;
-  pauseY2 = pauseDivY + pauseDivHeight*1/4;
-  pauseWidth2 = pauseDivWidth*1/8;
-  pauseHeight2 = pauseDivHeight*1/2;
-  //
-  playDivX = beginningButtonSpace + widthOfButton*5; //TEACHER Only" manipulate this number to draw simulate all buttons
-  playDivY = buttonY;
-  playDivWidth = widthOfButton;
-  playDivHeight = widthOfButton;
-  //
-  //Play Button
-  playX1 = playDivX + playDivWidth*1/4;
-  playY1 = playDivY + playDivHeight*1/4;
-  playX2 = playDivX + playDivWidth*3/4;
-  playY2 = playDivY + playDivHeight*1/2;
-  playX3 = playDivX + playDivWidth*1/4;
-  playY3 = playDivY + playDivHeight*3/4;
-  //
-  loopOnceDivX = beginningButtonSpace + widthOfButton*6;
-  loopOnceDivY = buttonY;
-  loopOnceDivWidth = widthOfButton;
-  loopOnceDivHeight = widthOfButton;
-  loopInfiniteDivX = beginningButtonSpace + widthOfButton*7;
-  loopInfiniteDivY = buttonY;
-  loopInfiniteDivWidth = widthOfButton;
-  loopInfiniteDivHeight = widthOfButton;
-  fastForwardDivX = beginningButtonSpace + widthOfButton*8;
-  fastForwardDivY = buttonY;
-  fastForwardDivWidth = widthOfButton;
-  fastForwardDivHeight = widthOfButton;
-  //
-  //Fast Forward Button
-  fastForwardX1 = fastForwardDivX + fastForwardDivWidth*1/4;
-  fastForwardY1 = fastForwardDivY + fastForwardDivHeight*1/4;
-  fastForwardX2 = fastForwardDivX + fastForwardDivWidth*1/2;
-  fastForwardY2 = fastForwardDivY + fastForwardDivHeight*1/2;
-  fastForwardX3 = fastForwardDivX + fastForwardDivWidth*1/4;
-  fastForwardY3 = fastForwardDivY + fastForwardDivHeight*3/4;
-  fastForwardX4 = fastForwardDivX + fastForwardDivWidth*1/2;
-  fastForwardY4 = fastForwardDivY + fastForwardDivHeight*1/4;
-  fastForwardX5 = fastForwardDivX + fastForwardDivWidth*3/4;
-  fastForwardY5 = fastForwardDivY + fastForwardDivHeight*1/2;
-  fastForwardX6 = fastForwardDivX + fastForwardDivWidth*1/2;
-  fastForwardY6 = fastForwardDivY + fastForwardDivHeight*3/4;
-  //
-  nextDivX = beginningButtonSpace + widthOfButton*9;
-  nextDivY = buttonY;
-  nextDivWidth = widthOfButton;
-  nextDivHeight = widthOfButton;
-  shuffleDivX = beginningButtonSpace + widthOfButton*10;
-  shuffleDivY = buttonY;
-  shuffleDivWidth = widthOfButton;
-  shuffleDivHeight = widthOfButton;
-  //
-  float musicSongPaddingY = widthOfButton*1/4;
-  float musicSongSpaceX = stopDivX;
-  float musicSongSpaceY = stopDivY + widthOfButton + musicSongPaddingY;
-  float musicSongSpaceWidth = appWidth - widthOfButton*2;
-  float musicSongSpaceHeight = appHeight - musicSongPaddingY - musicSongSpaceY;
-  //rect(musicSongSpaceX, musicSongSpaceY, musicSongSpaceWidth, musicSongSpaceHeight); //testing only
-  songPositionDivX = musicSongSpaceX;
-  songPositionDivY = musicSongSpaceY;
-  songPositionDivWidth = musicSongSpaceWidth*1/5;
-  songPositionDivHeight = musicSongSpaceHeight*2/5;
-  timeRemainingDivX = musicSongSpaceX + musicSongSpaceWidth*3/5;
-  timeRemainingDivY = musicSongSpaceY + musicSongSpaceHeight*3/5;
-  timeRemainingDivWidth = musicSongSpaceWidth*1/5;
-  timeRemainingDivHeight = musicSongSpaceHeight*2/5;
-  totalTimeDivX = musicSongSpaceX + musicSongSpaceWidth*4/5;
-  totalTimeDivY = musicSongSpaceY + musicSongSpaceHeight*3/5;
-  totalTimeDivWidth = musicSongSpaceWidth*1/5;
-  totalTimeDivHeight = musicSongSpaceHeight*2/5;
-  float musicSongSpaceButtonHeight = musicSongSpaceHeight*1/5;
-  timeBarDivX = musicSongSpaceX;
-  timeBarDivY = musicSongSpaceY + musicSongSpaceHeight*2/5;
-  timeBarDivWidth = musicSongSpaceWidth;
-  timeBarDivHeight = musicSongSpaceHeight*1/5;
-  //
-  //DIVs
-  //rect(X, Y, Width, Height)
-  rect(quitX, quitY, quitWidth, quitHeight);
-  rect(imageDivX, imageDivY, imageDivWidth, imageDivHeight);
-  rect(stopDivX, stopDivY, stopDivWidth, stopDivHeight);  //*0
-  rect(muteDivX, muteDivY, muteDivWidth, muteDivHeight); //*1
-  rect(previousDivX, previousDivY, previousDivWidth, previousDivHeight); //*2
-  rect(fastRewindDivX, fastRewindDivY, fastRewindDivWidth, fastRewindDivHeight); //*3
-  rect(pauseDivX, pauseDivY, pauseDivWidth, pauseDivHeight); //*4
-  rect(playDivX, playDivY, playDivWidth, playDivHeight); //*5
-  rect(loopOnceDivX, loopOnceDivY, loopOnceDivWidth, loopOnceDivHeight);
-  rect(loopInfiniteDivX, loopInfiniteDivY, loopInfiniteDivWidth, loopInfiniteDivHeight);
-  rect(fastForwardDivX, fastForwardDivY, fastForwardDivWidth, fastForwardDivHeight);
-  rect(nextDivX, nextDivY, nextDivWidth, nextDivHeight);
-  rect(shuffleDivX, shuffleDivY, shuffleDivWidth, shuffleDivHeight);
-  rect(songPositionDivX, songPositionDivY, songPositionDivWidth, songPositionDivHeight);
-  rect(songTitleDivX, songTitleDivY, songTitleDivWidth, songTitleDivHeight);
-  rect(timeBarDivX, timeBarDivY, timeBarDivWidth, timeBarDivHeight);
-  rect(timeRemainingDivX, timeRemainingDivY, timeRemainingDivWidth, timeRemainingDivHeight);
-  rect(totalTimeDivX, totalTimeDivY, totalTimeDivWidth, totalTimeDivHeight);
-  //
-  //rect(timeBarDivX, timeBarDivY, timeBarDivWidth, timeBarDivHeight);
-  rect(stopButtonX, stopButtonY, stopButtonWidth, stopButtonHeight);
-  triangle(playX1, playY1, playX2, playY2, playX3, playY3);
-  triangle(fastForwardX1, fastForwardY1, fastForwardX2, fastForwardY2, fastForwardX3, fastForwardY3);
-  triangle(fastForwardX4, fastForwardY4, fastForwardX5, fastForwardY5, fastForwardX6, fastForwardY6);
-  rect(pauseX1, pauseY1, pauseWidth1, pauseHeight1);
-  rect(pauseX2, pauseY2, pauseWidth2, pauseHeight2);
-  //
-  //Font Size relative to rect(height)
-  float fontSize = 52; //Change the number until it fits, largest font size, int only to ease guessing
-  //println("Font Size:", fontSize );
-  //
-  /* Aspect Ratio Manipulations (changes to variables)
-   - choose Aspect Ratio that must be mutliplied: fontSize/titleHeight
-   - Rewriting fontSize with formulae
-   */
-  float harringtonAspectRatio = fontSize / songTitleDivHeight;
-  fontSize = songTitleDivHeight*harringtonAspectRatio;
-  //println("Aspect Ratio:", harringtonAspectRatio);
-  //println(); //Skip a line
-  //
-  //Minimum Lines of code to format and draw text with colour
-  color purpleInk = #2C08FF;
-  fill(purpleInk); //Ink, hexidecimal copied from Color Selector
-  textAlign (CENTER, CENTER); //Align X&Y, see Processing.org / Reference
-  //Values: [LEFT | CENTER | RIGHT] & [TOP | CENTER | BOTTOM | BASELINE]
-  textFont(appFont, fontSize); //see variable note
-  //textFont() has option to combine font declaration with textSize()
-  //
-  //Drawing Text
-  //Option draw ```title```
-  if (playList[currentSong] != null && playListMetaData[currentSong] != null) {
-    // Decrease Font when wrapped around
-    while (songTitleDivWidth < textWidth(playListMetaData[currentSong].title())) { // decrease font
-      fontSize *= 0.99; // Assignment Operator
-      textFont(appFont, fontSize);
-    } // End Wrap-Around Notification
+  controlsX = appWidth * 1/2 - appWidth * 1/7;
+  controlsY = headerY + headerHeight + 20;
+  buttonSize = 50;
+  spacing = 10;
 
-    // Option, drawing ```title``` v playListMetaData[currentSong].title()
-    text(playListMetaData[currentSong].title(), songTitleDivX, songTitleDivY, songTitleDivWidth, songTitleDivHeight);
-  } else {
-    println("Error: Metadata or playlist is null for the current song.");
-  }
-  color whiteInk = #FFFFFF;
-  fill(whiteInk); //reset
-  //
-  //Aspect Ratio of Specfic Font, calculations only to be entered in variables above
-  //println( "Text Width:", textWidth( playListMetaData[currentSong].title() ), "v rectWidth:", songTitleDivWidth ); //Always smaller or cut off, if text is drawn, always drawn
-  //println( "Text Height:", fontSize, "v. rectHeight:", songTitleDivHeight ); //largest fontSize that will be draw, relative to rectHeight
-  //println( "Harrington Aspect Ratio ( fontSize/rect(height) ):", fontSize/songTitleDivHeight ); //Remember casting
-  //
-  //Print What is available on a particular song
-  //See Image / Properties / Details
-  println();
-  println( "File Name: " + playListMetaData[wildflower].mp3() );
-  println( "Length (in milliseconds): " + playListMetaData[currentSong].length() );
-  println( "Title: " + playListMetaData[currentSong].title() );
-  println( "Author: " + playListMetaData[currentSong].author() );
-  println( "Album: " + playListMetaData[currentSong].album() );
-  println( "Date: " + playListMetaData[currentSong].date() );
-  println( "Comment: " + playListMetaData[currentSong].comment() );
-  println( "Lyrics: " + playListMetaData[currentSong].lyrics() );
-  println( "Track: " + playListMetaData[currentSong].track() );
-  println( "Genre: " + playListMetaData[currentSong].genre() );
-  println( "Copyright: " + playListMetaData[currentSong].copyright() );
-  println( "Disc: " + playListMetaData[currentSong].disc() );
-  println( "Composer: " + playListMetaData[currentSong].composer() );
-  println( "Orchestra: " + playListMetaData[currentSong].orchestra() );
-  println( "Publisher: " + playListMetaData[currentSong].publisher() );
-  println( "Encoded: " + playListMetaData[currentSong].encoded() );
-  //
-} //End setup
-//
+  quitWidth = 60;
+  quitHeight = 40;
+  quitX = mainX + mainWidth - quitWidth - 20;
+  quitY = controlsY;
+
+  playlistX = headerX;
+  playlistY = controlsY + buttonSize + 20;
+  rowWidth = mainWidth - 40;
+  rowHeight = 60;
+
+  iconSize = 70;
+  iconSpacing = 20;
+  iconX = playlistX;
+  iconY = mainY + mainHeight - iconSize - 20;
+}
+
+// Draw the UI layout
 void draw() {
-  // Check if the current song is valid before accessing metadata
-  if (playList[currentSong] != null && playListMetaData[currentSong] != null) {
-    // ...existing code for drawing song title...
+  // Set background color based on the theme
+  if (isDarkTheme) {
+    background(30); // Dark background
   } else {
-    println("Error: Metadata or playlist is null for the current song.");
+    background(240); // Light background
   }
-} //End draw
-//
+
+  // Main MP3 Player Section
+  drawMainSection();
+
+  // Draw Icons with Hover Effects
+  drawBottomIcons();
+
+  // Draw Control Buttons with Hover Effects
+  drawControlButtons();
+
+  // Draw Quit Button with Hover Effects
+  drawQuitButton();
+}
+
+// Main Section
+void drawMainSection() {
+  // Main Background
+  if (isDarkTheme) {
+    fill(50); // Dark background for main section
+    stroke(200);
+  } else {
+    fill(220); // Light background for main section
+    stroke(0);
+  }
+  rect(mainX, mainY, mainWidth, mainHeight);
+
+  // "Now Playing" Header with Song Name
+  if (isDarkTheme) {
+    fill(70); // Dark header
+  } else {
+    fill(200); // Light header
+  }
+  rect(headerX, headerY, headerWidth, headerHeight);
+  fill(isDarkTheme ? 255 : 0); // Text color opposite to background
+  String nowPlayingText = "Now Playing: " + actualMusicNames[currentSongIndex]; // Dynamic song name
+  text(nowPlayingText, headerX + headerWidth / 2, headerY + headerHeight / 2);
+
+  // Playlist Grid
+  for (int i = 0; i < numberOfSongs; i++) { // Adjusted to 3 songs
+    if (isDarkTheme) {
+      fill(60); // Dark row background
+      stroke(100);
+    } else {
+      fill(255); // Light row background
+      stroke(0);
+    }
+    rect(playlistX, playlistY + i * rowHeight, rowWidth, rowHeight);
+    fill(isDarkTheme ? 255 : 0); // Text color opposite to background
+    textAlign(LEFT, CENTER);
+    text(actualMusicNames[i], playlistX + 10, playlistY + i * rowHeight + rowHeight / 2);
+    textAlign(CENTER, CENTER);
+  }
+}
+
+// Draw Bottom Icons (Buttons)
+void drawBottomIcons() {
+  for (int i = 0; i < 2; i++) {
+    // Check if the mouse is hovering over the icon
+    if (mouseX >= iconX + i * (iconSize + iconSpacing) && mouseX <= iconX + i * (iconSize + iconSpacing) + iconSize &&
+      mouseY >= iconY && mouseY <= iconY + iconSize) {
+      iconHovered[i] = true;
+    } else {
+      iconHovered[i] = false;
+    }
+
+    // Draw icon button with hover effect
+    if (iconHovered[i]) {
+      fill(isDarkTheme ? 100 : 200); // Hover color
+    } else {
+      fill(isDarkTheme ? 40 : 255); // Default color based on theme
+    }
+    stroke(0);
+    rect(iconX + i * (iconSize + iconSpacing), iconY, iconSize, iconSize);
+    fill(isDarkTheme ? 255 : 0); // Icon label color based on theme
+    text(getIconLabel(i), iconX + i * (iconSize + iconSpacing) + iconSize / 2, iconY + iconSize / 2);
+  }
+}
+
+// Draw Control Buttons (Playback)
+void drawControlButtons() {
+  for (int i = 0; i < 9; i++) {
+    // Check if the mouse is hovering over the control button
+    if (mouseX >= controlsX + i * (buttonSize + spacing) && mouseX <= controlsX + i * (buttonSize + spacing) + buttonSize &&
+      mouseY >= controlsY && mouseY <= controlsY + buttonSize) {
+      controlHovered[i] = true;
+    } else {
+      controlHovered[i] = false;
+    }
+
+    // Draw control button with hover effect
+    if (controlHovered[i]) {
+      fill(isDarkTheme ? 100 : 200); // Hover color
+    } else {
+      fill(isDarkTheme ? 40 : 255); // Default color based on theme
+    }
+    stroke(0);
+    rect(controlsX + i * (buttonSize + spacing), controlsY, buttonSize, buttonSize);
+    fill(isDarkTheme ? 255 : 0); // Icon label color based on theme
+    text(getControlLabel(i), controlsX + i * (buttonSize + spacing) + buttonSize / 2, controlsY + buttonSize / 2);
+  }
+}
+
+// Draw Quit Button (Exit)
+void drawQuitButton() {
+  // Check if the mouse is hovering over the quit button
+  if (mouseX >= quitX && mouseX <= quitX + quitWidth && mouseY >= quitY && mouseY <= quitY + quitHeight) {
+    quitHovered = true;
+  } else {
+    quitHovered = false;
+  }
+
+  // Draw quit button with hover effect
+  if (quitHovered) {
+    fill(isDarkTheme ? 100 : 200); // Hover color
+  } else {
+    fill(isDarkTheme ? 40 : 255); // Default color based on theme
+  }
+  stroke(0);
+  rect(quitX, quitY, quitWidth, quitHeight);
+  fill(isDarkTheme ? 255 : 0); // Text color based on theme
+  text("X", quitX + quitWidth / 2, quitY + quitHeight / 2);
+}
+
+// Control Labels
+String getControlLabel(int i) {
+  String[] labels = {"|<", "<<", "Play", "Stop", ">>", ">|", "Loop", "Shuffle", "Mute"};
+  return labels[i];
+}
+
+// Icon Labels
+String getIconLabel(int i) {
+  String[] labels = {"Settings", "Theme"};
+  return labels[i];
+}
+
+// Mouse Pressed to simulate button click
 void mousePressed() {
-} //End mousePressed
-//
-void keyPressed() {
-  /* Key Board Short Cuts ... learning what the Music Buttons could be
-   Note: CAP Lock with ||
-   if ( key==? || key==? ) ; //'' only
-   -
-   if ( key==CODED || keyCode==SpecialKey ) ; //Special Keys abriviated CAPS
-   All Music Player Features are built out of these Minim AudioPlayer() functions
-   .isPlaying()
-   .isMuted()
-   .loop(0), parameter is number of iterations after play
-   .loop(), parameter is infinite interations
-   .play(), parameter is built-in skip (milli-seconds or crystal-time)
-   .pause()
-   .rewind()
-   .skip()
-   .unmute()
-   .mute()
-   -
-   Lesson Music Button Features based on single, double, and spamming taps
-   - Play
-   - Pause
-   - Stop
-   - Loop Once
-   - Loop Infinite
-   - Fast Forward
-   - Fast Rewind
-   - Mute
-   - Next Song
-   - Previous Song
-   - Shuffle
-   -
-   - Advanced Buttons & Combinations
-   - Play-Pause-Stop
-   - Auto Play
-   - Random Song
-   */
-  //if ( key=='P' || key=='p' ) playList[currentSong].play(); //Simple Play, no double tap possible
-  //
-  if ( key=='P' || key=='p' ) playList[currentSong].loop(0); //Simple Play, double tap possible
-  /* Note: double tap is automatic rewind, no pause
-   Symbol is two triangles
-   This changes what the button might become after it is pressed
-   */
-  if ( key=='O' || key=='o' ) { // Pause
-    //
-    if ( playList[currentSong].isPlaying() ) {
-      playList[currentSong].pause();
-    } else {
-      playList[currentSong].play();
-    }
-  }
-  //if ( key=='S' || key=='s' ) song[currentSong].pause(); //Simple Stop, no double taps
-  //
-  if ( key=='S' | key=='s' ) {
-    if ( playList[currentSong].isPlaying() ) {
-      playList[currentSong].pause(); //single tap
-    } else {
-      playList[currentSong].rewind(); //double tap
-    }
-  }
-  if ( key=='L' || key=='l' ) playList[currentSong].loop(1); // Loop ONCE: Plays, then plays again, then stops & rewinds
-  if ( key=='K' || key=='k' ) playList[currentSong].loop(); // Loop Infinitely //Parameter: BLANK or -1
-  if ( key=='F' || key=='f' ) playList[currentSong].skip( 10000 ); // Fast Forward, Rewind, & Play Again //Parameter: milliseconds
-  if ( key=='R' || key=='r' ) playList[currentSong].skip( -10000 ); // Fast Reverse & Play //Parameter: negative numbers
-  if ( key=='W' || key=='w' ) { // MUTE
-    //
-    //MUTE Behaviour: stops electricty to speakers, does not stop file
-    //NOTE: MUTE has NO built-in PUASE button, NO built-in rewind button
-    //ERROR: if song near end of file, user will not know song is at the end
-    //Known ERROR: once song plays, MUTE acts like it doesn't work
-    if ( playList[currentSong].isMuted() ) {
-      //ERROR: song might not be playing
-      //CATCH: ask .isPlaying() or !.isPlaying()
-      playList[currentSong].unmute();
-    } else {
-      //Possible ERROR: Might rewind the song
-      playList[currentSong].mute();
-    }
-  }
-  if ( key==CODED || keyCode==ESC ) exit(); // QUIT //UP
-  if ( key=='Q' || key=='q' ) exit(); // QUIT
-  //
-  if ( key=='N' || key=='n' ) { // NEXT //See .txt for starter hint
-    if ( playList[currentSong].isPlaying() ) {
-      playList[currentSong].pause();
-      playList[currentSong].rewind();
-      //
-      if ( currentSong==numberOfSongs-1 ) {
-        currentSong = 0;
-      } else {
-        currentSong++;
+  // Check if an icon is clicked
+  for (int i = 0; i < 2; i++) {
+    if (iconHovered[i]) {
+      iconClicked[i] = true;
+      println(getIconLabel(i) + " button clicked!");
+
+      // Toggle theme if "Theme" icon is clicked
+      if (getIconLabel(i) == "Theme") {
+        isDarkTheme = !isDarkTheme;
+        println("Theme switched to " + (isDarkTheme ? "Dark" : "Light"));
       }
-      playList[currentSong].play();
-    } else {
-      //
-      playList[currentSong].rewind();
-      //
-      if ( currentSong==numberOfSongs-1 ) {
-        currentSong = 0;
-      } else {
-        currentSong++;
-      }
-      // NEXT will not automatically play the song
-      //song[currentSong].play();
     }
   }
-  //if ( key=='P' || key=='p' ) ; // Previous //Students to finish
-  //
-  //if ( key=='S' || key=='s' ) ; // Shuffle - PLAY (Random)
-  //Note: will randomize the currentSong number
-  //Caution: random() is used very often
-  //Question: how does truncating decimals affect returning random() floats
-  /*
-  if ( key=='' || key=='' ) ; // Play-Pause-STOP //Advanced, beyond single buttons
-   - need to have basic GUI complete first
-   */
-  //
-} //End keyPressed
-//
-// End Main Program
+
+  // Check if a control button is clicked
+  for (int i = 0; i < 9; i++) {
+    if (controlHovered[i]) {
+      controlClicked[i] = true;
+      println(getControlLabel(i) + " button clicked!");
+
+      // Play button clicked
+      if (getControlLabel(i) == "Play") {
+        if (songs[currentSongIndex].isPlaying()) {
+          songs[currentSongIndex].pause();
+        } else {
+          songs[currentSongIndex].play();
+        }
+      }
+
+      // Stop button clicked
+      if (getControlLabel(i) == "Stop") {
+        songs[currentSongIndex].pause();
+        songs[currentSongIndex].rewind();
+      }
+
+      // Next Song
+      if (getControlLabel(i) == ">|") {
+        songs[currentSongIndex].pause();  // Pause the current song
+        songs[currentSongIndex].rewind(); // Rewind the song
+        currentSongIndex = (currentSongIndex + 1) % numberOfSongs;  // Next song
+        println("Now playing: " + actualMusicNames[currentSongIndex]);
+        songs[currentSongIndex].play();  // Play the next song
+      }
+
+      // Previous Song
+      if (getControlLabel(i) == "|<") {
+        songs[currentSongIndex].pause();  // Pause the current song
+        songs[currentSongIndex].rewind(); // Rewind the song
+        currentSongIndex = (currentSongIndex - 1 + numberOfSongs) % numberOfSongs;  // Previous song
+        println("Now playing: " + actualMusicNames[currentSongIndex]);
+        songs[currentSongIndex].play();  // Play the previous song
+      }
+
+      // Fast Forward
+      if (getControlLabel(i) == ">>") {
+        songs[currentSongIndex].skip(1000);
+      }
+
+      // Fast Rewind
+      if (getControlLabel(i) == "<<") {
+        songs[currentSongIndex].skip(-1000);
+      }
+
+      // Loop Forever
+      if (getControlLabel(i) == "Loop") {
+        songs[currentSongIndex].loop();
+      }
+
+      // Mute/Unmute
+      if (getControlLabel(i) == "Mute") {
+        isMuted = !isMuted;  // Toggle mute state
+        if (isMuted) {
+          songs[currentSongIndex].mute();  // Mute the song
+          println("Muted");
+        } else {
+          songs[currentSongIndex].unmute(); // Unmute the song
+          println("Unmuted");
+        }
+      }
+    }
+  }
+
+  // Check if the quit button is clicked
+  if (quitHovered) {
+    quitClicked = true;
+    println("Quit button clicked!");
+    exit();  // Exit the program
+  }
+}
